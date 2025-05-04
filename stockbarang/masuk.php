@@ -31,7 +31,7 @@ require 'cek.php';
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.php">Hidayanthi Dwi Puja</a>
+            <a class="navbar-brand ps-3" href="index.php">Selamat Datang</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         </nav>
@@ -61,10 +61,6 @@ require 'cek.php';
                             </a>
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        puja
-                    </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
@@ -78,6 +74,16 @@ require 'cek.php';
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                     Tambah Barang
                                 </button>
+                                <br>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <from method="post" class="from_inline">
+                                                <input type="date" name="tgl_mulai" class="form-control">
+                                                <input type="date" name="tgl_selesai" class="form-control ml-3">
+                                                <button type="submit" name="filter_tgl" class="btn btn_ifo ml-3">Filter</button>
+                                        </from> 
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -95,7 +101,15 @@ require 'cek.php';
                                         
 
                                     <?php
-                                        $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
+
+                                    if(isset($_POST['filter_tgl'])){
+                                        $mulai = $_POST['tgl_mulai'];
+                                        $selesai = $_POST['tgl_selesai'];
+                                        $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s, login l where s.idbarang = m.idbarang and m.iduser=l.iduser and tanggal BETWEEN '$mulai' and DATE_ADD($selesai, INTERVAL 1 DAY) order by idmasuk DESC");
+                                    } else{
+                                        $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s, login l where s.idbarang = m.idbarang and m.iduser=l.iduser order by idmasuk DESC");
+                                    }
+
                                         while($data = mysqli_fetch_array($ambilsemuadatastock)){
                                             $idb = $data['idbarang'];
                                             $idm = $data['idmasuk'];
@@ -103,6 +117,7 @@ require 'cek.php';
                                             $namabarang = $data['namabarang'];
                                             $qty = $data['qty'];
                                             $keterangan = $data['keterangan'];
+                                            $username = $data['username'];
 
                                              //cek ada gambar atau tidak 
                                              $gambar = $data['image']; //ambil gambar
@@ -206,18 +221,6 @@ require 'cek.php';
                         </div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

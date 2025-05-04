@@ -51,7 +51,7 @@ if($gambar==null){
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.php">Hidayanthi Dwi Puja</a>
+            <a class="navbar-brand ps-3" href="index.php">Selamat Datang</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         </nav>
@@ -81,10 +81,6 @@ if($gambar==null){
                             </a>
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        puja
-                    </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
@@ -111,11 +107,11 @@ if($gambar==null){
                                 <div class="col-md-9">: <?=$stock;?></div>
                             </div>
 
-                            <br><br><hr>
+                            <br><br>
 
                                 <h3>Barang Masuk</h3>
                                 <div class="table-responsive">
-                                <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="barangmasuk" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -139,7 +135,7 @@ if($gambar==null){
 
                                         ?>
                                         <tr>
-                                            <td><?$i = 1;?></td> 
+                                            <td><?=$i++;?></td> 
                                             <td><?=$tanggal;?></td>
                                             <td><?=$keterangan;?></td>
                                             <td><?=$quantity;?></td>
@@ -155,22 +151,56 @@ if($gambar==null){
 
                                 </table>
                                 </div>
+
+                                <br><br>
+
+
+                                <h3>Barang Keluar</h3>
+                                <div class="table-responsive">
+                                <table class="table table-bordered" id="barangkeluar" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Tanggal</th>
+                                            <th>Keterangan</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <?php
+                                       
+                                    $ambildatakeluar = mysqli_query($conn, "select * from keluar where idbarang='$idbarang'");
+                                    $i = 1;
+
+                                    while($fetch = mysqli_fetch_array($ambildatakeluar)){
+                                        $tanggal = $fetch['tanggal'];
+                                        $penerima = $fetch['penerima'];
+                                        $quantity = $fetch['qty'];
+                                    
+
+                                        ?>
+                                        <tr>
+                                            <td><?=$i++;?></td> 
+                                            <td><?=$tanggal;?></td>
+                                            <td><?=$penerima;?></td>
+                                            <td><?=$quantity;?></td>
+                                        </tr>
+
+                                        <?php
+                                        };
+                                            
+                                        ?>
+
+                                    </tbody>
+
+
+                                </table>
+                                </div></div>
                             </st>
                         </div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
